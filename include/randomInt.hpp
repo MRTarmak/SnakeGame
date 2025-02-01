@@ -1,0 +1,1 @@
+int randomInt(int, int);

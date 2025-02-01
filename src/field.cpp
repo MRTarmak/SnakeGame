@@ -1,58 +1,101 @@
-#include <iostream>
-#include <string>
-#include "random_int.cpp"
-#include "snake.cpp"
+#include "field.hpp"
+#include "randomInt.hpp"
 
-#define HEIGHT 20
-#define WIDTH 50
-#define FIELD {"##################################################\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "#................................................#\n", \
-               "##################################################\n"};
+Field::Field(Snake &snake) : snake(snake) {
+    apple = {-1, -1};
+    score = 0;
+    topScore = 0;
+}
 
-class Field {
-public:
-    Field() {
-        snake.segments.emplace_back(random_int(1, HEIGHT - 2), random_int(0, WIDTH - 2));
-        score = 0;
-        update_field();
-    }
+void Field::initField() {
+    int x = randomInt(1, HEIGHT - 2);
+    int y = randomInt(1, WIDTH - 2);
+    snake.growingSegment = {x, y};
 
-    void update_apple() {
-        apple = {random_int(1, HEIGHT - 2), random_int(0, WIDTH - 2)};
-    }
+    snake.grow();
+    x = snake.growingSegment.first;
+    y = snake.growingSegment.second;
+    field[x][y] = '0';
 
-    void update_field() {
-        // TODO
-    }
+    updateApple();
+    x = apple.first;
+    y = apple.second;
+    field[x][y] = '@';
 
-    void print_field() {
-        std::cout << "Score: " << score << std::endl;
-        for (const std::string &str : field) {
-            std::cout << str;
+    printField(true);
+}
+
+int Field::updateField() {
+    int x, y;
+    bool ate_apple = false;
+
+    for (int i = 0; i < snake.length; i++) {
+        x = snake.segments[i].first;
+        y = snake.segments[i].second;
+
+        if (i == 0) {
+            if (field[x][y] == '@')
+                ate_apple = true;
+            if (field[x][y] == '#' || field[x][y] == 'o')
+                return 1;
+
+            field[x][y] = '0';
+        } else {
+            field[x][y] = 'o';
         }
-        std::cout << std::endl;
     }
 
-private:
-    std::string field[HEIGHT] = FIELD;
-    std::pair<int, int> apple;
-    Snake snake;
-    int score;
-};
+    if (ate_apple) {
+        score++;
+        snake.grow();
+        updateApple();
+        x = apple.first;
+        y = apple.second;
+        field[x][y] = '@';
+    } else {
+        x = snake.growingSegment.first;
+        y = snake.growingSegment.second;
+        field[x][y] = '.';
+    }
+
+    return 0;
+}
+
+void Field::restart() {
+    std::string new_field[HEIGHT] = FIELD;
+
+    for (int i = 0; i < HEIGHT; i++)
+    {
+        field[i] = new_field[i];
+    }
+
+    snake.reborn();
+    topScore = std::max(score, topScore);
+    score = 0;
+
+    initField();
+}
+
+void Field::printField(bool show_hint) {
+    if (show_hint) {
+        std::cout << "Hint:" << std::endl;
+        std::cout << "Change direction: UP, DOWN, RIGHT, LEFT" << std::endl;
+        std::cout << "Restart: R" << std::endl;
+        std::cout << "Exit: Esc" << std::endl;
+    }
+
+    std::cout << "Score: " << score << ", " << "Top score: " << topScore << std::endl;
+    for (const std::string &str : field) {
+        std::cout << str;
+    }
+    std::cout << std::endl;
+}
+
+void Field::updateApple() {
+    int x, y;
+    do {
+        x = randomInt(1, HEIGHT - 2);
+        y = randomInt(1, WIDTH - 2);
+    } while (field[x][y] == '0' || field[x][y] == 'o');
+    apple = {x, y};
+}
