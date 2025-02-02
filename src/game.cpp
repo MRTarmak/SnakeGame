@@ -1,29 +1,29 @@
 #include "game.hpp"
-#include <windows.h>
 
 Game::Game() : field(snake), snake() {}
 
-void Game::start() {
+void Game::initGame() {
     field.initField();
 
     waitingForStart();
+}
 
+void Game::start() {
     while (true) {
         changeDirection();
         if (GetAsyncKeyState(VK_ESCAPE) & 0x8001)
             exit(0);
         if (GetAsyncKeyState('R') & 0x8001) {
-            system("cls");
             field.restart();
-            waitingForStart();
+            return;
         }
 
         snake.updateSegments();
         if (field.updateField()) {
             std::cout << "Game Over. Press R to restart or Esc to exit." << std::endl;
             waitingForRestart();
+            return;
         } else {
-            system("cls");
             field.printField();
             Sleep(150);
         }
@@ -59,12 +59,11 @@ int Game::changeDirection() {
 void Game::waitingForStart() {
     while (true) {
         if (changeDirection())
-            break;
+            start();
 
         if (GetAsyncKeyState(VK_ESCAPE) & 0x8001)
             exit(0);
         if (GetAsyncKeyState('R') & 0x8001) {
-            system("cls");
             field.restart();
         }
 
@@ -73,16 +72,12 @@ void Game::waitingForStart() {
 }
 
 void Game::waitingForRestart() {
-    while(true) {
+    while (true) {
         if (GetAsyncKeyState(VK_ESCAPE) & 0x8001)
             exit(0);
         if (GetAsyncKeyState('R') & 0x8001) {
-            system("cls");
             field.restart();
-            waitingForStart();
-            break;
+            return;
         }
-
-        Sleep(500);
     }
 }

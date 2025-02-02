@@ -1,8 +1,11 @@
 #include "field.hpp"
+#include <windows.h>
 
 class Game {
 public:
     Game();
+
+    void initGame();
 
     void start();
 

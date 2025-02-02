@@ -1,5 +1,4 @@
 #include "field.hpp"
-#include "randomInt.hpp"
 
 Field::Field(Snake &snake) : snake(snake) {
     apple = {-1, -1};
@@ -77,18 +76,29 @@ void Field::restart() {
 }
 
 void Field::printField(bool show_hint) {
+    std::string output;
+    for (const std::string &str : field) {
+        for (const char &character : str) {
+            if (character == '0' || character == 'o')
+                output += GREEN + std::string(1, character) + RESET;
+            else if (character == '@')
+                output += RED + std::string(1, character) + RESET;
+            else
+                output += character;
+        }
+
+        output += std::string(1, '\n');
+    }
+
+    system("cls");
     if (show_hint) {
         std::cout << "Hint:" << std::endl;
         std::cout << "Change direction: UP, DOWN, RIGHT, LEFT" << std::endl;
         std::cout << "Restart: R" << std::endl;
         std::cout << "Exit: Esc" << std::endl;
     }
-
     std::cout << "Score: " << score << ", " << "Top score: " << topScore << std::endl;
-    for (const std::string &str : field) {
-        std::cout << str;
-    }
-    std::cout << std::endl;
+    std::cout << output << std::endl;
 }
 
 void Field::updateApple() {
