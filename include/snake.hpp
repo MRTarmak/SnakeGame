@@ -9,8 +9,8 @@ struct Snake {
 
     void reborn();
 
-    std::vector<std::pair<int, int>> segments;
-    std::pair<int, int> growingSegment;
+    std::vector<std::pair<short, short>> segments;
+    std::pair<short, short> growingSegment;
     char direction;
     int length;
 };

@@ -1,42 +1,12 @@
-#include <iostream>
+#pragma once
+#include <fstream>
+#include "printer.hpp"
 #include "snake.hpp"
-#include "randomInt.hpp"
-
-#define HEIGHT 25
-#define WIDTH 25
-#define FIELD {"#########################", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#.......................#", \
-               "#########################"};
-
-#define RESET "\033[0m"
-#define RED "\033[31m"
-#define GREEN   "\033[32m"
+#include "random.hpp"
 
 class Field {
 public:
-    Field(Snake &);
+    Field(Snake &snake, Printer &printer);
 
     void initField();
 
@@ -44,14 +14,20 @@ public:
 
     void restart();
 
-    void printField(bool = false);
-
 private:
+    void readField();
+
     void updateApple();
 
-    std::string field[HEIGHT] = FIELD;
-    std::pair<int, int> apple;
+    void removeCoords(std::pair<short, short> coords);
+
+    std::vector<std::string> field;
+    int fieldWidth;
+    int fieldHeight;
     Snake &snake;
+    Printer &printer;
+    std::pair<short, short> apple;
     int score;
     int topScore;
+    std::vector<std::pair<short, short>> availableCoords;
 };

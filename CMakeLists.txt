@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(SnakeGame VERSION 1.1 LANGUAGES CXX)
+project(SnakeGame VERSION 1.2 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -10,12 +10,16 @@ set(SNAKE_SOURCES
         src/snake.cpp
 )
 
-set(RANDOM_INT_SOURCES
-        src/randomInt.cpp
+set(RANDOM_SOURCES
+        src/random.cpp
 )
 
 set(FIELD_SOURCES
         src/field.cpp
+)
+
+set(PRINTER_SOURCES
+        src/printer.cpp
 )
 
 set(GAME_SOURCES
@@ -23,11 +27,12 @@ set(GAME_SOURCES
 )
 
 add_library(Snake STATIC ${SNAKE_SOURCES})
-add_library(RandomInt STATIC ${RANDOM_INT_SOURCES})
+add_library(Random STATIC ${RANDOM_SOURCES})
 add_library(Field STATIC ${FIELD_SOURCES})
+add_library(Printer STATIC ${PRINTER_SOURCES})
 add_library(Game STATIC ${GAME_SOURCES})
 
-target_link_libraries(Field PRIVATE Snake RandomInt)
+target_link_libraries(Field PRIVATE Printer Snake Random)
 target_link_libraries(Game PRIVATE Field)
 
 if(WIN32)

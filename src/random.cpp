@@ -1,4 +1,4 @@
-#include "randomInt.hpp"
+#include "random.hpp"
 
 int randomInt(int min, int max) {
     std::random_device rd;

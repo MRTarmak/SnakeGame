@@ -1,5 +1,4 @@
 #include "field.hpp"
-#include <windows.h>
 
 class Game {
 public:
@@ -17,5 +16,6 @@ private:
     void waitingForRestart();
 
     Field field;
+    Printer printer;
     Snake snake;
 };

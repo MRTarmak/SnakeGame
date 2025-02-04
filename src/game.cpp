@@ -1,6 +1,6 @@
 #include "game.hpp"
 
-Game::Game() : field(snake), snake() {}
+Game::Game() : field(snake, printer), printer(), snake() {}
 
 void Game::initGame() {
     field.initField();
@@ -20,11 +20,10 @@ void Game::start() {
 
         snake.updateSegments();
         if (field.updateField()) {
-            std::cout << "Game Over. Press R to restart or Esc to exit." << std::endl;
+            printer.printGameOver();
             waitingForRestart();
             return;
         } else {
-            field.printField();
             Sleep(150);
         }
     }
