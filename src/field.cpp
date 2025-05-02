@@ -95,7 +95,7 @@ void Field::restart() {
 }
 
 void Field::readField() {
-    std::ifstream inputFile("../FIELD");
+    std::ifstream inputFile("../FIELD.txt");
 
     if (!inputFile) {
         exit(-1);
