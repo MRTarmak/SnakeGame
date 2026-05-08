@@ -4,12 +4,12 @@ Printer::Printer() : coord(), scoreLength() {
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 }
 
-void Printer::overwriteCharacter(char character, WORD color) {
+void Printer::overwriteCharacter(TCHAR newChar, WORD color) {
     setColor(color);
 
     SetConsoleCursorPosition(hConsole, coord);
 
-    std::cout << character << std::flush;
+    std::cout << newChar << std::flush;
 }
 
 void Printer::overwriteScore(const int &score, const int &topScore, const int &fieldHeight) {

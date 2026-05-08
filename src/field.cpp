@@ -87,7 +87,7 @@ void Field::restart() {
     fieldWidth = 0;
     fieldHeight = 0;
     snake.reborn();
-    topScore = std::max(score, topScore);
+    topScore = max(score, topScore);
     score = 0;
     availableCoords.clear();
 
@@ -95,26 +95,13 @@ void Field::restart() {
 }
 
 void Field::readField() {
-    std::ifstream inputFile("../FIELD.txt");
-
-    if (!inputFile) {
-        exit(-1);
-    }
-
-    inputFile >> fieldWidth >> fieldHeight;
-
-    std::string str;
-
-    for (int i = 0; i < fieldHeight; i++) {
-        inputFile >> str;
-        field.push_back(str);
-    }
-
-    inputFile.close();
+    fieldWidth = FIELD_WIDTH;
+    fieldHeight = FIELD_HEIGHT;
+    field = FIELD;
 }
 
 void Field::updateApple() {
-    int i = randomInt(0, (int)availableCoords.size() - 1);\
+    int i = randomInt(0, (int)availableCoords.size() - 1);
 
     apple = availableCoords[i];
 }

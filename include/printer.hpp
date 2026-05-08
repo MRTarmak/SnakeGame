@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <string>
 #include <windows.h>
 
 #define GAME_FIELD_OFFSET 10
