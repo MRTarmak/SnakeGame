@@ -10,8 +10,8 @@ set(SNAKE_SOURCES
         src/snake.cpp
 )
 
-set(RANDOM_SOURCES
-        src/random.cpp
+set(RANDOMIZER_SOURCES
+        src/randomizer.cpp
 )
 
 set(FIELD_SOURCES
@@ -27,12 +27,12 @@ set(GAME_SOURCES
 )
 
 add_library(Snake STATIC ${SNAKE_SOURCES})
-add_library(Random STATIC ${RANDOM_SOURCES})
+add_library(Randomizer STATIC ${RANDOMIZER_SOURCES})
 add_library(Field STATIC ${FIELD_SOURCES})
 add_library(Printer STATIC ${PRINTER_SOURCES})
 add_library(Game STATIC ${GAME_SOURCES})
 
-target_link_libraries(Field PRIVATE Printer Snake Random)
+target_link_libraries(Field PRIVATE Printer Snake Randomizer)
 target_link_libraries(Game PRIVATE Field)
 
 if(WIN32)

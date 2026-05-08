@@ -16,7 +16,7 @@ void Field::initField() {
         }
     }
 
-    int i = randomInt(0, (int)availableCoords.size() - 1);
+    int i = Randomizer::randomInt(0, (int)availableCoords.size() - 1);
     snake.growingSegment = availableCoords[i];
 
     snake.grow();
@@ -101,7 +101,7 @@ void Field::readField() {
 }
 
 void Field::updateApple() {
-    int i = randomInt(0, (int)availableCoords.size() - 1);
+    int i = Randomizer::randomInt(0, (int)availableCoords.size() - 1);
 
     apple = availableCoords[i];
 }

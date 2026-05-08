@@ -1,8 +1,7 @@
 #pragma once
-#include <fstream>
 #include "printer.hpp"
 #include "snake.hpp"
-#include "random.hpp"
+#include "randomizer.hpp"
 
 #define FIELD_WIDTH 25
 #define FIELD_HEIGHT 25
