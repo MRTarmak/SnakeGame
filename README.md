@@ -1,5 +1,5 @@
 # SnakeGame
-Simple in-terminal "snake" game.
+Simple in-terminal "Snake" game.
 
 **Works only on Windows because of using Windows API.**
 
